@@ -2,9 +2,15 @@ import { Button, TextField } from "@material-ui/core/";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-const Form = () => {
+const Form = ({ setIsLogged, isLogged }) => {
   const formSchema = yup.object().shape({
-    nome: yup.string().required("Nome Obrigatório"),
+    nome: yup
+      .string()
+      .required("Nome Obrigatório")
+      .matches(
+        /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
+        "Coloque apenas letras"
+      ),
     email: yup.string().required("Email Obrigatório").email(),
     senha: yup
       .string()
@@ -24,8 +30,10 @@ const Form = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(formSchema) });
-
-  const onSubmitFunction = (data) => {};
+  const onSubmitFunction = (data) => {
+    setIsLogged(true);
+    console.log("a");
+  };
   return (
     <form onSubmit={handleSubmit(onSubmitFunction)}>
       <TextField
