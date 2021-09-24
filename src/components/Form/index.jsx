@@ -1,7 +1,8 @@
+import { Button, TextField } from "@material-ui/core/";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-export const Form = () => {
+const Form = () => {
   const formSchema = yup.object().shape({
     nome: yup.string().required("Nome Obrigatório"),
     email: yup.string().required("Email Obrigatório").email(),
@@ -19,8 +20,42 @@ export const Form = () => {
   });
 
   const {
-    resolver,
+    register,
     handleForm,
     formState: { error },
   } = useForm({ resolver: yupResolver(formSchema) });
+  return (
+    <form>
+      <TextField
+        required
+        label="Nome"
+        size="small"
+        variant="filled"
+        {...register("nome")}
+      />
+      <TextField
+        required
+        label="Email"
+        size="small"
+        variant="filled"
+        {...register("email")}
+      />
+      <TextField
+        required
+        label="Senha"
+        size="small"
+        variant="filled"
+        {...register("senha")}
+      />
+      <TextField
+        required
+        label="Confirme sua senha"
+        size="small"
+        variant="filled"
+        {...register("confirmacaoSenha")}
+      />
+    </form>
+  );
 };
+
+export default Form;
