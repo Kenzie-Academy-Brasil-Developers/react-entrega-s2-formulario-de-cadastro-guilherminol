@@ -10,7 +10,7 @@ const Form = () => {
       .string()
       .required()
       .matches(
-        "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$",
+        /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
         "Deve conter 8 Characters, Um Maiusculo, Um número e um Character especial"
       ),
     confirmacaoSenha: yup
@@ -21,39 +21,50 @@ const Form = () => {
 
   const {
     register,
-    handleForm,
-    formState: { error },
+    handleSubmit,
+    formState: { errors },
   } = useForm({ resolver: yupResolver(formSchema) });
+
+  const onSubmitFunction = (data) => {};
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmitFunction)}>
       <TextField
         required
+        error={errors.nome?.message}
         label="Nome"
         size="small"
         variant="filled"
+        helperText={errors.nome?.message}
         {...register("nome")}
       />
       <TextField
         required
+        error={errors.email?.message}
         label="Email"
         size="small"
         variant="filled"
+        helperText={errors.email?.message}
         {...register("email")}
       />
       <TextField
         required
+        error={errors.senha?.message}
         label="Senha"
         size="small"
         variant="filled"
+        helperText={errors.senha?.message}
         {...register("senha")}
       />
       <TextField
         required
+        error={errors.confirmacaoSenha?.message}
         label="Confirme sua senha"
         size="small"
         variant="filled"
+        helperText={errors.confirmacaoSenha?.message}
         {...register("confirmacaoSenha")}
       />
+      <Button type="submit">Registrar</Button>
     </form>
   );
 };
