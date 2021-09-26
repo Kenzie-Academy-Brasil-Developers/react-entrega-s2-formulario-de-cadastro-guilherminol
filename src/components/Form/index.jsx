@@ -1,27 +1,29 @@
-import { Button, TextField } from "@material-ui/core/";
+import { Button } from "@material-ui/core/";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-const Form = ({ setIsLogged, isLogged }) => {
+import { Register, FormLabel, ButtonSubmit, Error } from "./style";
+import { useHistory } from "react-router-dom";
+const Form = () => {
   const formSchema = yup.object().shape({
     nome: yup
       .string()
-      .required("Nome Obrigatório")
+      .required("Campo obrigatório")
       .matches(
         /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u,
         "Coloque apenas letras"
       ),
-    email: yup.string().required("Email Obrigatório").email(),
+    email: yup.string().required("Campo obrigatório").email(),
     senha: yup
       .string()
-      .required()
+      .required("Campo obrigatório")
       .matches(
         /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
         "Deve conter 8 Characters, Um Maiusculo, Um número e um Character especial"
       ),
     confirmacaoSenha: yup
       .string()
-      .required()
+      .required("Campo obrigatório")
       .oneOf([yup.ref("senha"), null], "Senhas são diferentes"),
   });
 
@@ -30,50 +32,37 @@ const Form = ({ setIsLogged, isLogged }) => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(formSchema) });
+  const history = useHistory();
+
   const onSubmitFunction = (data) => {
-    setIsLogged(true);
-    console.log("a");
+    history.push("/Logged");
   };
   return (
-    <form onSubmit={handleSubmit(onSubmitFunction)}>
-      <TextField
-        required
-        error={errors.nome?.message}
-        label="Nome"
-        size="small"
-        variant="filled"
-        helperText={errors.nome?.message}
-        {...register("nome")}
-      />
-      <TextField
-        required
-        error={errors.email?.message}
-        label="Email"
-        size="small"
-        variant="filled"
-        helperText={errors.email?.message}
-        {...register("email")}
-      />
-      <TextField
-        required
-        error={errors.senha?.message}
-        label="Senha"
-        size="small"
-        variant="filled"
-        helperText={errors.senha?.message}
-        {...register("senha")}
-      />
-      <TextField
-        required
-        error={errors.confirmacaoSenha?.message}
-        label="Confirme sua senha"
-        size="small"
-        variant="filled"
-        helperText={errors.confirmacaoSenha?.message}
-        {...register("confirmacaoSenha")}
-      />
-      <Button type="submit">Registrar</Button>
-    </form>
+    <Register onSubmit={handleSubmit(onSubmitFunction)}>
+      <div>
+        <FormLabel placeholder="Nome" {...register("nome")} />
+        <Error>{errors.nome?.message}</Error>
+      </div>
+
+      <div>
+        <FormLabel placeholder="Email" {...register("email")} />
+        <Error>{errors.email?.message}</Error>
+      </div>
+      <div>
+        <FormLabel placeholder="Senha" {...register("senha")} />
+        <Error>{errors.senha?.message}</Error>
+      </div>
+
+      <div>
+        <FormLabel
+          placeholder="Confirme sua senha"
+          {...register("confirmacaoSenha")}
+        />
+        <Error>{errors.confirmacaoSenha?.message}</Error>
+      </div>
+
+      <ButtonSubmit type="submit">Registrar</ButtonSubmit>
+    </Register>
   );
 };
 

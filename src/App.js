@@ -10,10 +10,10 @@ function App() {
   return (
     <Switch>
       <Route exact path="/">
-        <AppPage isLogged={isLogged}></AppPage>
+        <Home setIsLogged={setIsLogged} isLogged={isLogged}></Home>
       </Route>
       <Route path="/Logged">
-        <Home setIsLogged={setIsLogged} isLogged={isLogged}></Home>
+        <AppPage isLogged={isLogged}></AppPage>
       </Route>
     </Switch>
   );
