@@ -12,7 +12,7 @@ function App() {
       <Route exact path="/">
         <Home setIsLogged={setIsLogged} isLogged={isLogged}></Home>
       </Route>
-      <Route path="/Logged">
+      <Route path="/Logged/:nome">
         <AppPage isLogged={isLogged}></AppPage>
       </Route>
     </Switch>

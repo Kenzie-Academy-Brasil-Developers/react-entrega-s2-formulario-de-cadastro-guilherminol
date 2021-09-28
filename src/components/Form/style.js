@@ -4,7 +4,7 @@ export const Register = styled.form`
   padding: 10px;
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  width: 250px;
   height: 300px;
   justify-content: space-around;
   margin: 0 auto;

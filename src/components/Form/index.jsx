@@ -35,7 +35,7 @@ const Form = () => {
   const history = useHistory();
 
   const onSubmitFunction = (data) => {
-    history.push("/Logged");
+    history.push(`/Logged/${data.nome}`);
   };
   return (
     <Register onSubmit={handleSubmit(onSubmitFunction)}>
@@ -61,7 +61,9 @@ const Form = () => {
         <Error>{errors.confirmacaoSenha?.message}</Error>
       </div>
 
-      <ButtonSubmit type="submit">Registrar</ButtonSubmit>
+      <Button variant="contained" type="submit">
+        Registrar
+      </Button>
     </Register>
   );
 };
